@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+  </head>
+
+  <body>
+    <div>
+      <form action="/books/insert/" accept-charset="UTF-8" method="get">
+        <button class="btn" title="追加" type="submit"> 追加 <i class="icon-search"></i></button>
+      </form>
+      <form action="/books/update/" accept-charset="UTF-8" method="get">
+        <button class="btn" title="更新" type="submit"> 更新 <i class="icon-search"></i></button>
+      </form>
+      <form action="/books/search/" accept-charset="UTF-8" method="get">
+        <button class="btn" title="検索" type="submit"> 検索 <i class="icon-search"></i></button>
+      </form>
+      <form action="/books/delete/" accept-charset="UTF-8" method="get">
+        <button class="btn" title="削除" type="submit"> 削除 <i class="icon-search"></i></button>
+      </form>
+    </div>	
+  </body>
+</html>
