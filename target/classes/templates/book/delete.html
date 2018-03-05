@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/index.js"></script>
-    <link rel="stylesheet" href="../css/style.css" type="text/css" />
-  </head>
-
-  <body>
-    <div>
-    検索
-      <form action="/books/delete/" accept-charset="UTF-8" method="get">
-        <input name="bookName" type="text" placeholder="本の名前で検索"/>
-        <input name="author" type="text" placeholder="著者名で検索"/>
-        <button type="submit"> 送信 </button>
-      </form>
-    </div>
-    <div>
-      <li th:each="book : ${books}">
-        本の名前: 
-        <a th:href="@{'/books/' + ${book.id}}" >
-          <p th:text="${book.bookName}"> </p>
-        </a>
-        著者名: <p th:text="${book.author}"> </p>
-        冊数: <p th:text="${book.number}"> </p>
-      </li>
-    </div>
-    <div></div>
-  </body>
+	<head>
+    		<meta charset="UTF-8" />
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    		<script type="text/javascript" src="../js/index.js"></script>
+    		<link rel="stylesheet" href="/css/btn.css" type="text/css" />
+    		<link rel="stylesheet" href="/css/form.css" type="text/css" />
+  	</head>
+  	<body>
+  		<div>
+      		<form action="/books/delete/" accept-charset="UTF-8" method="get">
+        			<input name="bookName" type="text" placeholder="本の名前で検索"/>
+        			<input name="author" type="text" placeholder="著者名で検索"/>
+        			<button class="btn" type="submit"> 送信 </button>
+      		</form>
+    		</div>
+    		<form action="/books/delete" th:object="${bookForm}" accept-charset="UTF-8" method="post">
+    			<div th:each="item : ${items}">
+     			<input type="checkbox" name="CheckBoxes" th:value="${item.key}" th:text="${item.value.bookName}" th:field="*{inputMultiCheck}" />
+			</div>
+			<button class="btn" type="submit"> 送信 </button>
+		</form> 
+    	</body>
 </html>

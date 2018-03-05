@@ -2,21 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <meta charset="UTF-8" th:remove="all" />
-</head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/index.js"></script>
+    <link rel="stylesheet" href="/css/btn.css" type="text/css" />
+    	<link rel="stylesheet" href="/css/form.css" type="text/css" />
+  </head>
+
 
 <body class="yj950-2">
-
-<div layout:fragment="main">
-    <article class="section">
-        <div >   
-        	  本の名前 : <p th:text="${book.bookName}" />
-        	  著者名 : <p th:text="${book.author}" />
-        	  冊数 : <p th:text="${book.number}" />
-        </div>
-    </article>
-</div>
-
+	<div layout:fragment="main">	
+    			<div th:style="'background-image: url(' + @{${book.imageUrl}} + ');'">
+    			</div>
+    			本の名前 : <div th:text="${book.bookName}" />
+        		著者名 : <div th:text="${book.author}" />
+        		冊数 : <div th:text="${book.number}" />
+	</div>
 </body>
 
 </html>

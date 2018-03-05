@@ -3,6 +3,9 @@ package com.example.business.entity;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Where;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.PrePersist;
@@ -13,6 +16,7 @@ import java.util.Date;
 import javax.persistence.Column;
 @Entity
 @Table(name = "books")
+@Where(clause = " delete_flag = false")
 public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +27,9 @@ public class Book {
 	
 	@Column(nullable = false)
 	private String author;
+	
+	@Column(nullable = false)
+	private String imageUrl;
 	
 	@Column(nullable = false)
 	private Integer number;  // 本の冊数
@@ -58,6 +65,14 @@ public class Book {
 	
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	
+	public String getImageUrl() {
+		return this.imageUrl;
+	}
+	
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 	public Integer getNumber() {

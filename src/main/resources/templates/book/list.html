@@ -11,13 +11,15 @@
 
 
 <body class="yj950-2">
-	<div layout:fragment="main">	
-    			<div th:style="'background-image: url(' + @{${book.imageUrl}} + ');'">
+	<div layout:fragment="main">
+		<div th:each="book : ${books}">
+			<div th:style="'background-image: url(' + @{${book.imageUrl}} + ');'">
     			</div>
-    			本の名前 : <div th:text="${book.bookName}" />
-        		著者名 : <div th:text="${book.author}" />
-        		冊数 : <div th:text="${book.number}" />
+    			本の名前 : <pre th:text="${book.bookName}" />
+        		著者名 : <pre th:text="${book.author}" />
+        		冊数 : <pre th:text="${book.number}" />
 	</div>
+		</div>	
 </body>
 
 </html>

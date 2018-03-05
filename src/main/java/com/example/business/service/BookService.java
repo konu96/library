@@ -12,6 +12,7 @@ public interface BookService {
 	Book save(Book book);
 	Book findOne(Long id);
 	Integer updateBook(Long id, String bookName, String author, Integer number, Timestamp ts, boolean flag);
+	List<Book> findAll();
 	Page<Book> findAll(Pageable page);
 	List<Book> findAllByBookNameLike( String keyword );
 	List<Book> findAllByAuthorLike( String keyword );

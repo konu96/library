@@ -4,16 +4,18 @@
     <meta charset="UTF-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/index.js"></script>
-    <link rel="stylesheet" href="../css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/css/btn.css" type="text/css" />
+    	<link rel="stylesheet" href="/css/form.css" type="text/css" />
   </head>
 
   <body>
     <div>
       <form action="/books/insert/" th:object="${bookForm}" accept-charset="UTF-8" method="post">
-        <input th:field="*{bookName}" th:errorclass="error-field" type="text" placeholder="本の名前"/>
-        <input th:field="*{author}" th:errorclass="error-field" type="text" placeholder="著者名"/>
-        <input th:field="*{number}" th:errorclass="error-field" type="number" value="1"/>
-        <button type="submit"> 送信 </button>
+        <p> 本の名前 : <input type="text" th:field="*{bookName}" th:errorclass="error-field" placeholder="本の名前" /> </p>
+        <p> 著者名 : <input type="text" th:field="*{author}" th:errorclass="error-field" placeholder="著者名" /> </p>
+        <p> 画像URL : <input type="text" th:field="*{imageUrl}" th:errorclass="error-field" placeholder="画像URL" /> </p>
+        <p> 冊数 : <input type="number" name="number" value="1" th:errorclass="error-field" min="0" /> </p>
+        <button class="btn" type="submit"> 送信 </button>
       </form>
     </div>	
   </body>
