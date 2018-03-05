@@ -58,9 +58,9 @@ public class BookController {
 	
 	@GetMapping("/books/search")
 	public ModelAndView searchBook(ModelAndView mav, @RequestParam(defaultValue = "") String bookName, @RequestParam(defaultValue = "") String author) {
-		if(bookName != "" && author == "") {
+		if( !bookName.equals("") && author.equals("") ) {
 			mav.addObject( "books", bookService.findAllByBookNameLike(bookName) );
-		} else if(bookName == "" && author != "") {
+		} else if( bookName.equals("") && !author.equals("") ) {
 			mav.addObject( "books", bookService.findAllByAuthorLike(author) );
 		} else {
 			mav.addObject( "books", bookService.find(bookName, author) );
@@ -75,10 +75,10 @@ public class BookController {
 	public ModelAndView deleteBook(ModelAndView mav, @RequestParam(defaultValue = "") String bookName, @RequestParam(defaultValue = "") String author) {
 		Map<Long,BookForm> items = new HashMap<>();
 		List<Book> books = null;
-		if(bookName != "" && author == "") {
+		if( !bookName.equals("") && author.equals("") ) {
 			books = bookService.findAllByBookNameLike(bookName);
 			mav.addObject( "books", books );
-		} else if(bookName == "" && author != "") {
+		} else if( bookName.equals("") && !author.equals("") ) {
 			books = bookService.findAllByAuthorLike(author);
 			mav.addObject( "books", books );
 		} else {
