@@ -130,7 +130,7 @@ public class BookController {
 		Book book = bookService.findOne(id);
 		BeanUtils.copyProperties(updateBook, book);
 		bookService.save(book);
-		mav.setViewName("redirect:/books/" + id + "/edit");
+		mav.setViewName("redirect:/");
 		
 		return mav;
 	}

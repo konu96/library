@@ -1,7 +1,40 @@
-body {
-	background-color : #deffcd;
+@charset "UTF-8";
+
+// reset
+html, body, div, header, ul {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	margin: 25px 0 20px 0;
+}
+
+header h1 {
+	overflow: hidden;
+	width: auto;
+	height: auto;
+	background: #fff url(https://logomarket.jp/data/logo/1/2/1/1212/1212-348x348.png) no-repeat;
+}
+
+section ul {
+	list-style-type: none;
+}
+
+section ul li {
+	float: left;
+	padding: 0 0 20px 30px;
+}
+
+/* section ul li:nth-child(3n+1) {
+	padding-left: 0;
+} */
+
+section ul li a {
+	display: block;
+	text-decoration: none;
 }
 
 .blank {
-	margin : 2em; 
+	margin: 2em; 
 }
