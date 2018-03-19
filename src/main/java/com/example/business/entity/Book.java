@@ -32,6 +32,9 @@ public class Book {
 	private String imageUrl;
 	
 	@Column(nullable = false)
+	private String publisher;
+	
+	@Column(nullable = false)
 	private Integer number;  // 本の冊数
 	
 	@Column(nullable = false, updatable = false)
@@ -42,6 +45,9 @@ public class Book {
 	
 	@Column(nullable = false)
 	private boolean deleteFlag;
+	
+	@Column(nullable = false)
+	private Genre genre;
 	
 	public Long getId() {
 		return this.id;
@@ -75,6 +81,14 @@ public class Book {
 		this.imageUrl = imageUrl;
 	}
 	
+	public String getPublisher() {
+		return this.publisher;
+	}
+	
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	
 	public Integer getNumber() {
 		return this.number;
 	}
@@ -101,5 +115,13 @@ public class Book {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = new Timestamp((new Date()).getTime());
+    }
+    
+    public Genre getGenre() {
+    		return this.genre;
+    }
+    
+    public void setGenre(Genre genre) {
+    		this.genre = genre;
     }
 }
