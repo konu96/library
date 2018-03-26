@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.example.business.entity.Book;
 
 public interface BookService {
-	Book save(Book book);
+	Book save(Book book, Long userId);
 	Book findOne(Long id);
 	Integer updateBook(Long id, String bookName, String author, Integer number, Timestamp ts, boolean flag);
 	List<Book> findAll();

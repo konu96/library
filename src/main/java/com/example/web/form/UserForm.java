@@ -14,6 +14,7 @@ public class UserForm implements Serializable{
 	@Size(min = 5, max = 30)
 	private String password;
 	
+	@NotBlank
 	private String confirmPassword;
 	
 	public String getName() {

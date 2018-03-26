@@ -1,6 +1,7 @@
 package com.example.business.entity;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -48,6 +49,9 @@ public class Book {
 	
 	@Column(nullable = false)
 	private Genre genre;
+	
+	@OneToOne
+	private User user;
 	
 	public Long getId() {
 		return this.id;
@@ -123,5 +127,13 @@ public class Book {
     
     public void setGenre(Genre genre) {
     		this.genre = genre;
+    }
+    
+    public User getUser() {
+    		return this.user;
+    }
+    
+    public void setUser(User user) {
+    		this.user = user;
     }
 }
