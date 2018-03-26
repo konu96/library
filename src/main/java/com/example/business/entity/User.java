@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "users")
@@ -14,11 +15,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String name;
 	
 	@Column(nullable = false)
 	private String password;
+	
+	@OneToOne
+	private Book book;
 	
 	public Long getId() {
 		return this.id;
@@ -36,11 +40,19 @@ public class User {
 		this.name = name;
 	}
 	
-	public String getPassWord() {
+	public String getPassword() {
 		return this.password;
 	}
 	
-	public void setPassWord(String password) {
+	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Book getBook() {
+		return this.book;
+	}
+	
+	public void setBook(Book book) {
+		this.book = book;
 	}
 }

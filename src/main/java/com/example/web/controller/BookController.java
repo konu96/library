@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
 import com.example.business.service.BookService;
+import com.example.security.LoginUserDetails;
 import com.example.web.form.BookForm;
 
 @Controller
@@ -43,7 +45,8 @@ public class BookController {
 	@PostMapping("/books/insert/")
 	public ModelAndView insertBook(ModelAndView mav,
 								  @Validated BookForm form,
-								  BindingResult result) {
+								  BindingResult result,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
 		
 		if( result.hasErrors() ) {
 			return insertBook(mav, form);
@@ -51,13 +54,15 @@ public class BookController {
 		
 		Book book = new Book();
 		BeanUtils.copyProperties(form, book);
-		bookService.save(book);
+		bookService.save(book, loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
 		return mav;
 	}
 	
 	@GetMapping("/books/search")
-	public ModelAndView searchBook(ModelAndView mav, @RequestParam(defaultValue = "") String bookName, @RequestParam(defaultValue = "") String author) {
+	public ModelAndView searchBook(ModelAndView mav, 
+								  @RequestParam(defaultValue = "") String bookName, 
+								  @RequestParam(defaultValue = "") String author) {
 		if( !bookName.equals("") && author.equals("") ) {
 			mav.addObject( "books", bookService.findAllByBookNameLike(bookName) );
 		} else if( bookName.equals("") && !author.equals("") ) {
@@ -72,7 +77,9 @@ public class BookController {
 	}
 	
 	@GetMapping("/books/delete")
-	public ModelAndView deleteBook(ModelAndView mav, @RequestParam(defaultValue = "") String bookName, @RequestParam(defaultValue = "") String author) {
+	public ModelAndView deleteBook(ModelAndView mav, 
+								  @RequestParam(defaultValue = "") String bookName, 
+								  @RequestParam(defaultValue = "") String author) {
 		Map<Long,BookForm> items = new HashMap<>();
 		List<Book> books = null;
 		if( !bookName.equals("") && author.equals("") ) {
@@ -96,12 +103,14 @@ public class BookController {
 	}
 	
 	@PostMapping("/books/delete")
-	public ModelAndView deleteBook(ModelAndView mav, BookForm bookForm) {
+	public ModelAndView deleteBook(ModelAndView mav, 
+								  BookForm bookForm, 
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
 		String[] checkBoxes = bookForm.getInputMultiCheck();
 		for(String id_str : checkBoxes) {
 			Book book = bookService.findOne( Long.parseLong(id_str) );
 			book.setDeleteFlag(true);
-			bookService.save(book);
+			bookService.save(book, loginUserDetails.getUserId());
 		}
 		mav.setViewName("redirect:/");
 		return mav;
@@ -126,10 +135,13 @@ public class BookController {
 	}
 	
 	@PostMapping("/books/{id}/edit")
-	public ModelAndView updateBook(ModelAndView mav, @PathVariable("id") Long id, Book updateBook) {
+	public ModelAndView updateBook(ModelAndView mav, 
+								  @PathVariable("id") Long id, 
+								  Book updateBook,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
 		Book book = bookService.findOne(id);
 		BeanUtils.copyProperties(updateBook, book);
-		bookService.save(book);
+		bookService.save(book, loginUserDetails.getUserId());
 		mav.setViewName("redirect:/");
 		
 		return mav;
@@ -145,10 +157,12 @@ public class BookController {
 	}
 	
 	@PostMapping("/books/{id}/delete")
-	public ModelAndView updateBook(ModelAndView mav, @PathVariable("id") Long id) {
+	public ModelAndView updateBook(ModelAndView mav, 
+								  @PathVariable("id") Long id,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
 		Book book = bookService.findOne(id);
 		book.setDeleteFlag(true);
-		bookService.save(book);
+		bookService.save(book,loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
 		
 		return mav;

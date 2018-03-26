@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.business.entity.Book;
 import com.example.business.repository.BookRepository;
+import com.example.business.repository.UserRepository;
 import com.example.business.service.BookService;
 
 @Service
@@ -17,8 +18,12 @@ public class BookServiceImpl implements BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Override
-	public Book save(Book book) {
+	public Book save(Book book, Long userId) {
+		book.setUser( userRepository.findOne(userId) );
 		return bookRepository.save(book);
 	}
 	
