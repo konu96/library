@@ -121,6 +121,14 @@ public class Book {
         this.updatedAt = new Timestamp((new Date()).getTime());
     }
     
+    public Timestamp getCreatedAt() {
+    		return this.createdAt;
+    }
+    
+    public Timestamp getUpdatedAt() {
+		return this.updatedAt;
+}
+    
     public Genre getGenre() {
     		return this.genre;
     }
