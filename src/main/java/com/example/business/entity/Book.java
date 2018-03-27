@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -120,6 +121,14 @@ public class Book {
     public void preUpdate() {
         this.updatedAt = new Timestamp((new Date()).getTime());
     }
+    
+    public Timestamp getCreatedAt() {
+    		return this.createdAt;
+    }
+    
+    public Timestamp getUpdatedAt() {
+		return this.updatedAt;
+}
     
     public Genre getGenre() {
     		return this.genre;

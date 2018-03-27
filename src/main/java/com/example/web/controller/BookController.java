@@ -36,7 +36,8 @@ public class BookController {
 	
 	@GetMapping("/books/insert/")
 	public ModelAndView insertBook(ModelAndView mav, BookForm form) {
-		mav.addObject( "book", new BookForm() );
+		System.out.println("aaaaaa");
+		mav.addObject( "book", form );
 		mav.setViewName("book/insert");
 		
 		return mav;

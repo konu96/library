@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
+import com.example.business.entity.Genre;
 import com.example.business.service.BookService;
 
 @Controller
@@ -17,7 +18,9 @@ public class TopController {
 	
 	@GetMapping("/")
 	public ModelAndView index(ModelAndView mav) {
-		List<Book> books = bookService.findAll();
+		List<Book> books = bookService.findAllByOrderByCreatedAtDesc();
+		Genre[] genres = Genre.values();
+		mav.addObject("genres", genres);
 		mav.addObject("books", books);
 		mav.setViewName("top/index");
 		

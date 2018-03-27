@@ -29,6 +29,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 				   	   @Param("updatedAt") Timestamp ts,
 				   	   @Param("deleteFlag") boolean flag);
 	
+	List<Book> findAllByOrderByCreatedAtDesc();
 	List<Book> findAllByBookName(@Param("bookName") String bookName);
 	
 	List<Book> findAllByAuthor(@Param("author") String author);

@@ -25,17 +25,12 @@
      			</nav>
      		</div>
      		<section>
-				<ul>
 					<block th:each="book : ${books}">
-						<li>
-							<div>
-								<a th:href="@{'/books/' + ${book.id}}">
-									<img th:src="${book.imageUrl}" width="200px" height="300px" th:alt="${book.bookName}" />
-								</a>
-							</div>
-						</li>
+						<div class="box">
+							<span class="box-title" th:text="${book.genre}"></span>
+							<p class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </p>
+						</div>
 					</block>
-				</ul>
 			</section>
 		</div>
         	<footer></footer>
