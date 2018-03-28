@@ -1,38 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-    		<meta charset="UTF-8" />
-    		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    		<link rel="stylesheet" href="/css/style.css" type="text/css" />
-    		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
-    		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  	</head>
-  	<body>
-  		<div class="box_wrapper">
-  			<div class="sidebar">
-  				<header> 
-  					<h1> Library </h1>
-  				</header>
-  				<nav class="nav flex-column">
-  					<ul>
-  						<li> <a class="btn btn-primary btn-lg active" href="books/show" role="button" aria-pressed="true" title="一覧"> 一覧 </a> </li>
-        					<li> <a class="btn btn-primary btn-lg active" href="books/insert" role="button" aria-pressed="true" title="追加"> 追加 </a> </li>
-	        				<li> <a class="btn btn-primary btn-lg active" href="books/search" role="button" aria-pressed="true" title="検索"> 検索 </a> </li>
-     	   				<li> <a class="btn btn-primary btn-lg active" href="books/delete" role="button" aria-pressed="true" title="削除"> 削除 </a> </li>
-  					</ul>
-     			</nav>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    	<link rel="stylesheet" href="/css/style.css" type="text/css" />
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<div class="box_wrapper">
+  	  <div class="sidebar">
+  	    <header> 
+  	      <h1> Library </h1>
+  	    </header>
+  	    <block th:if="${loginUser == null}">
+  	      <form action="/login" accept-charset="UTF-8" method="get">
+  	        <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログイン" type="submit"> ログイン </button>
+          </form> 
+  	    </block>
+  	    <block th:if="${loginUser != null}">
+  	      <form action="/logout" accept-charset="UTF-8" method="get">
+  	        <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログアウト" type="submit"> ログアウト </button>
+          </form> 
+  	    </block>
+  	    <nav class="nav flex-column">
+  	      <ul>
+  	        <li>
+              <form action="/books/show/" accept-charset="UTF-8" method="get">
+                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="一覧" type="submit"> 一覧 </button>
+              </form> 
+            </li>
+            <li> 
+              <form action="/books/insert/" accept-charset="UTF-8" method="get">
+                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="追加" type="submit"> 追加 </button>
+              </form> 
+            </li>
+            <li> 
+              <form action="/books/search/" accept-charset="UTF-8" method="get">
+                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="検索" type="submit"> 検索 </button>
+              </form> 
+            </li>
+            <li> 
+              <form action="/books/delete/" accept-charset="UTF-8" method="get">
+                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="削除" type="submit"> 削除 </button>
+              </form> 
+            </li>
+          </ul>
+     	</nav>
+      </div>
+      <section>
+        <div class="contents">
+     	  <block th:each="book : ${books}">
+     	    <div class="box">
+     	      <span class="box-title" th:text="${book.genre}"></span>
+     	      <a th:href="'/books/' + ${book.id}"> <img th:src="${book.imageUrl}" th:alt="${book.bookName}" class="thumnail" /> </a>
+     	      <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </span>
      		</div>
-     		<section>
-					<block th:each="book : ${books}">
-						<div class="box">
-							<span class="box-title" th:text="${book.genre}"></span>
-							<p class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </p>
-						</div>
-					</block>
-			</section>
-		</div>
-        	<footer></footer>
-      </body>
+     	  </block>
+     	</div>
+      </section>
+    </div>
+    <footer></footer>
+  </body>
 </html>
