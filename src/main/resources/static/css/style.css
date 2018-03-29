@@ -6,10 +6,6 @@ header, footer {
     display: block;
 }
 
-a {
-	color:white;
-}
-
 header {
 	font-size: 70px;
 	padding: 0.2em 0.5em;
@@ -62,9 +58,9 @@ h1:hover {
 }
 
 .search {
-	position: fixed;
+	position: absolute;
 	width: 200px;
-	left: 580px;
+	left: 550px;
 	top: 40px;
 	background-color: whitesmoke;
 }
@@ -104,6 +100,7 @@ nav form {
   font-weight: lighter;
   letter-spacing: 1px;
   transition: .25s ease-in-out;
+  display: inline-block;
 }
 
 .tab {
@@ -112,7 +109,7 @@ nav form {
 
 .tab li {
 	background: #ccc;
-	padding: 5px 25px;
+	padding: 5px 30px;
 	float: left;
 	margin-right: 1px;
 }
@@ -123,9 +120,14 @@ nav form {
 
 .content li {
 	background: #eee;
-	padding: 20px;
+	padding: 10px;
+	width: 95%;
 }
 
 .hide {
 	display: none;
+}
+
+.select {
+	color: white;
 }
