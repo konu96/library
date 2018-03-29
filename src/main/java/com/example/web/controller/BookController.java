@@ -64,14 +64,7 @@ public class BookController {
 	public ModelAndView searchBook(ModelAndView mav, 
 								  @RequestParam(defaultValue = "") String bookName, 
 								  @RequestParam(defaultValue = "") String author) {
-		if( !bookName.equals("") && author.equals("") ) {
-			mav.addObject( "books", bookService.findAllByBookNameLike(bookName) );
-		} else if( bookName.equals("") && !author.equals("") ) {
-			mav.addObject( "books", bookService.findAllByAuthorLike(author) );
-		} else {
-			mav.addObject( "books", bookService.find(bookName, author) );
-		}
-		
+		mav.addObject( "books", bookService.find(bookName, author) );
 		mav.setViewName("book/search");
 		
 		return mav;
@@ -82,17 +75,7 @@ public class BookController {
 								  @RequestParam(defaultValue = "") String bookName, 
 								  @RequestParam(defaultValue = "") String author) {
 		Map<Long,BookForm> items = new HashMap<>();
-		List<Book> books = null;
-		if( !bookName.equals("") && author.equals("") ) {
-			books = bookService.findAllByBookNameLike(bookName);
-			mav.addObject( "books", books );
-		} else if( bookName.equals("") && !author.equals("") ) {
-			books = bookService.findAllByAuthorLike(author);
-			mav.addObject( "books", books );
-		} else {
-			books = bookService.find(bookName, author);
-			mav.addObject( "books", books );
-		}
+		List<Book> books = books = bookService.find(bookName, author);
 		
 		for(Book book : books) {
 			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber() ) );

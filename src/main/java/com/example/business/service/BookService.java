@@ -15,7 +15,5 @@ public interface BookService {
 	List<Book> findAll();
 	List<Book> findAllByOrderByCreatedAtDesc();
 	Page<Book> findAll(Pageable page);
-	List<Book> findAllByBookNameLike( String keyword );
-	List<Book> findAllByAuthorLike( String keyword );
 	List<Book> find(String bookName, String author);
 }
