@@ -8,6 +8,36 @@
     	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[>*/
+			$(function() {
+				function categorize(books, name) {
+					var result = [];
+					for(var book in books) {
+						if(books[book].genre.$name === name) {
+							result.push(books[book]);
+						}
+					}
+					
+					return result;
+				}
+				var categories = []
+				var genres = /*[[ ${genres} ]]*/ null;
+				var books  = /*[[ ${books} ]]*/ null;
+				for(var genre in genres) {
+					categories.push( categorize(books, genres[genre].$name) );
+				}
+				
+				for(var category in categories) {
+					for(var id in categories[category]) {
+						var html = '<form th:action="/books/' + books[id].id + '/ accept-charset="UTF-8" method="get"> <img src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" /> </a>';
+						$('li[name="' + genres[category].$name + '"]').append(html);
+					}
+				}
+			});
+		/*]]>*/
+	</script>
+	<script th:inline="javascript" src="/js/index.js" />
   </head>
   <body>
   	<div class="box_wrapper">
@@ -46,13 +76,26 @@
   	  </header>
       <section>
         <div class="contents">
-     	  <block th:each="book : ${books}">
-     	    <div class="box">
-     	      <span class="box-title" th:text="${book.genre}"></span>
-     	      <a th:href="'/books/' + ${book.id}"> <img th:src="${book.imageUrl}" th:alt="${book.bookName}" class="thumnail" /> </a>
-     	      <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </span>
-     		</div>
-     	  </block>
+          <ul class="tab">
+           <li class="select"> 新着情報 </li>
+           <block th:each="genre : ${genres}">
+             <li th:text="${genre.genre}"></li>
+           </block>  
+          </ul>
+     	  <ul class="content">
+     	    <li>
+     	      <block th:each="book : ${books}">
+     	        <div class="box">
+     	          <span class="box-title" th:text="${book.genre}"></span>
+     	          <a th:href="'/books/' + ${book.id}"> <img th:src="${book.imageUrl}" th:alt="${book.bookName}" class="thumnail" /> </a>
+     	          <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </span>
+     	        </div>
+     	      </block>
+     	    </li>
+     	    <block th:each="genre : ${genres}">
+     	      <li class="hide" th:name="${genre}" th:value="${genre.genre}"></li>
+     	    </block>  
+     	  </ul>
      	</div>
       </section>
     </div>

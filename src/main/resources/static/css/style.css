@@ -19,9 +19,6 @@ header {
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.56);
 }
 
-.box_wrapper {
-}
-
 ul {
 	list-style-type: none;
 }
@@ -52,6 +49,11 @@ ul {
 
 h1 {
 	font-size: 0.7em
+}
+
+h1:hover {
+	color: #2962ff;
+    text-decoration: none;
 }
 
 .thumnail {
@@ -104,6 +106,26 @@ nav form {
   transition: .25s ease-in-out;
 }
 
-nav form:hover {
-  color: rgb(220, 120, 0);
+.tab {
+	overflow: hidden;
+}
+
+.tab li {
+	background: #ccc;
+	padding: 5px 25px;
+	float: left;
+	margin-right: 1px;
+}
+
+.tab li.select {
+	backgrounf: #eee;
+}
+
+.content li {
+	background: #eee;
+	padding: 20px;
+}
+
+.hide {
+	display: none;
 }

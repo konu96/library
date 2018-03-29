@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.business.entity.Book;
+import com.example.business.entity.Genre;
 import com.example.business.service.BookService;
 import com.example.security.LoginUserDetails;
 
@@ -24,6 +25,12 @@ public class CommonControllerAdvice {
 	@ModelAttribute(name = "loginUser")
 	private LoginUserDetails setLoginUser(@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
 		return loginUserDetails;
+	}
+	
+	@ModelAttribute(name = "genres")
+	private Genre[] setGenres() {
+		Genre[] genres = Genre.values();
+		return genres;
 	}
 
 }
