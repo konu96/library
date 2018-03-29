@@ -43,6 +43,7 @@ public class UserController {
 			return mav;
 		}
 		
+		mav.addObject("userForm", userForm);
 		mav.setViewName("user/signupForm");
 		return mav;
 	}
