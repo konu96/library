@@ -48,16 +48,6 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
-	public List<Book> findAllByBookNameLike(String keyword) {
-		return bookRepository.findAllByBookName(keyword);
-	}
-	
-	@Override
-	public List<Book> findAllByAuthorLike(String keyword) {
-		return bookRepository.findAllByAuthor(keyword);
-	}
-	
-	@Override
 	public List<Book> find(String bookName, String author) {
 		return bookRepository.find(bookName, author);
 	}

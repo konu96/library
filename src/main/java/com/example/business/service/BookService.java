@@ -14,7 +14,5 @@ public interface BookService {
 	Integer updateBook(Long id, String bookName, String author, Integer number, Timestamp ts, boolean flag);
 	List<Book> findAll();
 	Page<Book> findAll(Pageable page);
-	List<Book> findAllByBookNameLike( String keyword );
-	List<Book> findAllByAuthorLike( String keyword );
 	List<Book> find(String bookName, String author);
 }
