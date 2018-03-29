@@ -11,45 +11,39 @@
   </head>
   <body>
   	<div class="box_wrapper">
-  	  <div class="sidebar">
-  	    <header> 
-  	      <h1> Library </h1>
-  	    </header>
-  	    <block th:if="${loginUser == null}">
-  	      <form action="/login" accept-charset="UTF-8" method="get">
-  	        <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログイン" type="submit"> ログイン </button>
-          </form> 
-  	    </block>
-  	    <block th:if="${loginUser != null}">
-  	      <form action="/logout" accept-charset="UTF-8" method="get">
-  	        <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログアウト" type="submit"> ログアウト </button>
-          </form> 
-  	    </block>
-  	    <nav class="nav flex-column">
-  	      <ul>
-  	        <li>
-              <form action="/books/show/" accept-charset="UTF-8" method="get">
-                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="一覧" type="submit"> 一覧 </button>
-              </form> 
-            </li>
-            <li> 
-              <form action="/books/insert/" accept-charset="UTF-8" method="get">
-                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="追加" type="submit"> 追加 </button>
-              </form> 
-            </li>
-            <li> 
-              <form action="/books/search/" accept-charset="UTF-8" method="get">
-                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="検索" type="submit"> 検索 </button>
-              </form> 
-            </li>
-            <li> 
-              <form action="/books/delete/" accept-charset="UTF-8" method="get">
-                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="削除" type="submit"> 削除 </button>
-              </form> 
-            </li>
-          </ul>
-     	</nav>
-      </div>
+  	  <header>
+  	    <h1> <a href="/"> Library </a> </h1>
+  	    <nav>
+  	      <div class="entry">
+  	        <ul>
+  	          <li>
+  	            <form action="/books/search" accept-charset="UTF-8" method="get">
+  	              <input name="bookName" type="search" class="form-control form-control-sm search" placeholder="🔍検索" />
+  	            </form>
+  	          </li>
+  	          <block th:if="${loginUser == null}">
+  	            <li>
+  	              <form action="/login" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログイン" type="submit"> ログイン </button>
+  	              </form> 
+  	            </li>
+  	            <li>
+  	              <form action="/sign_up" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="新規登録" type="submit"> 新規登録 </button>
+  	              </form> 
+  	            </li>
+  	          </block>
+  	          <block th:if="${loginUser != null}">
+  	            <li>
+  	              <form action="/logout" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログアウト" type="submit"> ログアウト </button>
+                  </form> 
+                </li>
+              </block>
+            </ul>
+          </div>
+        </nav>
+  	  </header>
       <section>
         <div class="contents">
      	  <block th:each="book : ${books}">
