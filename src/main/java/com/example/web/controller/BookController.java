@@ -27,13 +27,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@GetMapping("books/show")
-	public ModelAndView showBook(ModelAndView mav) {
-		mav.setViewName("book/list");
-		
-		return mav;
-	}
-	
 	@GetMapping("/books/insert/")
 	public ModelAndView insertBook(ModelAndView mav, BookForm form) {
 		System.out.println("aaaaaa");

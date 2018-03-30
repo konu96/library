@@ -48,7 +48,7 @@
   	        <ul>
   	          <li>
   	            <form action="/books/search" accept-charset="UTF-8" method="get">
-  	              <input name="bookName" type="search" class="form-control form-control-sm search" placeholder="🔍検索" />
+  	              <input name="bookName" type="search" class="form-control form-control-sm bookName" placeholder="🔍本の名前で検索" />
   	            </form>
   	          </li>
   	          <block th:if="${loginUser == null}">
@@ -91,7 +91,7 @@
      	        <div class="box">
      	          <span class="box-title" th:text="${book.genre}"></span>
      	          <a th:href="'/books/' + ${book.id}"> <img th:src="${book.imageUrl}" th:alt="${book.bookName}" class="thumnail" /> </a>
-     	          <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に' + ${book.bookName} + 'を追加しました。'"> </span>
+     	          <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に「' + ${book.bookName} + '」を追加しました。'"> </span>
      	        </div>
      	      </block>
      	    </li>
