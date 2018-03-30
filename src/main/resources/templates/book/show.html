@@ -1,25 +1,99 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    	<link rel="stylesheet" href="/css/style.css" type="text/css" />
+    	<link rel="stylesheet" href="/css/show.css" type="text/css" />
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../js/index.js"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[>*/
+			$(function() {
+				function categorize(books, name) {
+					var result = [];
+					for(var book in books) {
+						if(books[book].genre.$name === name) {
+							result.push(books[book]);
+						}
+					}
+					
+					return result;
+				}
+				var categories = []
+				var genres = /*[[ ${genres} ]]*/ null;
+				var books  = /*[[ ${books} ]]*/ null;
+				for(var genre in genres) {
+					categories.push( categorize(books, genres[genre].$name) );
+				}
+				
+				for(var category in categories) {
+					for(var id in categories[category]) {
+						var html = '<a href="/books/' + books[id].id + '/" accept-charset="UTF-8" method="get"> <img src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" /> </a>';
+						$('li[name="' + genres[category].$name + '"]').append(html);
+					}
+				}
+			});
+		/*]]>*/
+	</script>
+	<script th:inline="javascript" src="/js/index.js" />
   </head>
-
-
-<body class="yj950-2">
-	<div layout:fragment="main">	
-    			<div th:style="'background-image: url(' + @{${book.imageUrl}} + ');'">
-    			</div>
-    			本の名前 : <div th:text="${book.bookName}" />
-        		著者名 : <div th:text="${book.author}" />
-        		冊数 : <div th:text="${book.number}" />
-	</div>
-</body>
-
+  <body>
+  	<div class="box_wrapper">
+  	  <header>
+  	    <h1> <a href="/"> Library </a> </h1>
+  	    <nav>
+  	      <div class="entry">
+  	        <ul>
+  	          <li>
+  	            <form action="/books/search" accept-charset="UTF-8" method="get">
+  	              <input name="bookName" type="search" class="form-control form-control-sm bookName" placeholder="🔍本の名前で検索" />
+  	            </form>
+  	          </li>
+  	          <block th:if="${loginUser == null}">
+  	            <li>
+  	              <form action="/login" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログイン" type="submit"> ログイン </button>
+  	              </form> 
+  	            </li>
+  	            <li>
+  	              <form action="/sign_up" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="新規登録" type="submit"> 新規登録 </button>
+  	              </form> 
+  	            </li>
+  	          </block>
+  	          <block th:if="${loginUser != null}">
+  	            <li>
+  	              <form action="/insert" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="追加" type="submit"> 本を登録 </button>
+                  </form>
+  	              <form action="/logout" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログアウト" type="submit"> ログアウト </button>
+                  </form> 
+                </li>
+              </block>
+            </ul>
+          </div>
+        </nav>
+  	  </header>
+      <div class ="all-frame">
+        <div class="img-frame">
+          <div class="img">
+            <img th:src="${book.imageUrl}" align="left" width="300px" height="450px" th:alt="${book.bookName}" />
+          </div>
+          <div class="text-box">
+            <p class="text" th:text="'本の名前: ' + ${book.bookName}"></p>
+            <p class="text" th:text="'著者名: ' + ${book.author}"></p>
+            <p class="text" th:text="'出版社: ' + ${book.publisher}"></p>
+            <p class="text" th:text="'蔵書数: ' + ${book.number}"></p>
+            <p class="text" th:text="'追加日: ' + ${#dates.format(book.createdAt, 'YYYY-MMM-dd')}"></p>
+            <p class="text" th:text="'ジャンル: ' + ${book.genre}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer></footer>
+  </body>
 </html>
