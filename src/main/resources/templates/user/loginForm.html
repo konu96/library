@@ -13,13 +13,14 @@
   <body>
   	<div class="box_wrapper">
   	  <header>
+  	    <img src="/image/book_icon.png" width="55px" height="70px" style="float:left; margin-right: 10px;"/>
   	    <h1> <a href="/"> Library </a> </h1>
   	    <nav>
   	      <div class="entry">
   	        <ul>
   	          <li>
   	            <form action="/books/search" accept-charset="UTF-8" method="get">
-  	              <input name="bookName" type="search" class="form-control form-control-sm search" placeholder="🔍検索" />
+  	              <input name="bookName" type="search" class="form-control form-control-sm bookName" placeholder="🔍本の名前で検索" />
   	            </form>
   	          </li>
   	          <block th:if="${loginUser == null}">
@@ -36,7 +37,7 @@
   	          </block>
   	          <block th:if="${loginUser != null}">
   	            <li>
-  	              <form action="/insert" accept-charset="UTF-8" method="get">
+  	              <form action="/books/insert" accept-charset="UTF-8" method="get">
   	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="追加" type="submit"> 本を登録 </button>
                   </form>
   	              <form action="/logout" accept-charset="UTF-8" method="get">
