@@ -121,6 +121,10 @@ nav form {
 	margin-right: 1px;
 }
 
+.tab:hover {
+	cursor : pointer;
+}
+
 .tab li.select {
 	backgrounf: #eee;
 }
