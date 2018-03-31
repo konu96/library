@@ -11,6 +11,7 @@ import com.example.business.entity.Book;
 import com.example.business.entity.Genre;
 import com.example.business.service.BookService;
 import com.example.security.LoginUserDetails;
+import com.example.web.form.BookForm;
 
 @ControllerAdvice
 public class CommonControllerAdvice {
@@ -20,6 +21,11 @@ public class CommonControllerAdvice {
 	@ModelAttribute(name = "books")
 	public List<Book> setupBooks() {
 		return bookService.findAll();
+	}
+	
+	@ModelAttribute(name = "bookForm")
+	public BookForm setupBookForm() {
+		return new BookForm();
 	}
 	
 	@ModelAttribute(name = "loginUser")
@@ -32,5 +38,4 @@ public class CommonControllerAdvice {
 		Genre[] genres = Genre.values();
 		return genres;
 	}
-
 }

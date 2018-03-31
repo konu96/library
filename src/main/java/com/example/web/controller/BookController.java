@@ -1,6 +1,5 @@
 package com.example.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +28,8 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@GetMapping("/books/insert/")
+	//@GetMapping("/books/insert/")
+	@RequestMapping(value = "/books/insert", method = RequestMethod.GET)
 	public ModelAndView insertBook(ModelAndView mav, BookForm form) {
 		System.out.println("aaaaaa");
 		mav.addObject( "book", form );
@@ -36,7 +38,8 @@ public class BookController {
 		return mav;
 	}
 	
-	@PostMapping("/books/insert/")
+	//@PostMapping("/books/insert/")
+	@RequestMapping(value = "/books/insert", method = RequestMethod.POST)
 	public ModelAndView insertBook(ModelAndView mav,
 								  @Validated BookForm form,
 								  BindingResult result,
@@ -68,7 +71,7 @@ public class BookController {
 								  @RequestParam(defaultValue = "") String bookName, 
 								  @RequestParam(defaultValue = "") String author) {
 		Map<Long,BookForm> items = new HashMap<>();
-		List<Book> books = books = bookService.find(bookName, author);
+		List<Book> books = bookService.find(bookName, author);
 		
 		for(Book book : books) {
 			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre() ) );
