@@ -71,7 +71,7 @@ public class BookController {
 		List<Book> books = books = bookService.find(bookName, author);
 		
 		for(Book book : books) {
-			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber() ) );
+			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre() ) );
 		}
 		mav.addObject("items", items);
 		mav.addObject("bookForm", new BookForm());
