@@ -8,11 +8,11 @@ header, footer {
 
 header {
 	font-size: 70px;
+	
 	padding: 0.2em 0.5em;
-	background-color: #0e347b;
 	color: white;
 	font-weight: lighter;
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.56);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.56);
 }
 
 ul {
@@ -45,10 +45,6 @@ ul {
 
 h1 {
 	font-size: 0.7em;
-}
-
-h1 a {
-	color: white;
 }
 
 .thumnail {
@@ -106,7 +102,6 @@ nav form {
   font-size: 1.15em;
   font-weight: lighter;
   letter-spacing: 1px;
-  transition: .25s ease-in-out;
   display: inline-block;
 }
 
@@ -126,7 +121,7 @@ nav form {
 }
 
 .tab li.select {
-	backgrounf: #eee;
+	background: #495057;
 }
 
 .content li {
