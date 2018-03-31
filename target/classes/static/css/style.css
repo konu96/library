@@ -8,7 +8,7 @@ header, footer {
 
 header {
 	font-size: 70px;
-	
+	background-color: white;
 	padding: 0.2em 0.5em;
 	color: white;
 	font-weight: lighter;
@@ -55,7 +55,7 @@ h1 {
 .bookName {
 	position: absolute;
 	width: 200px;
-	right: 550px;
+	right: 490px;
 	top: 40px;
 	background-color: whitesmoke;
 }
