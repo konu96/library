@@ -6,21 +6,45 @@
 
 .img-frame {
 	background: #eee;
+	height: 480px;
 }
 
 .img {
-	margin: 30px 0px 0px 100px;
+	margin: 30px 0px 0px 120px;
 }
 
 .text-box {
-    border: solid 3px #ced4da;
+    /* border: solid 3px #ced4da;
     border-radius: 8px;
-    background: #f8f9fa;
+    background: #f8f9fa; */
     margin-left: auto;
     width: 40%;
     margin-right: 100px;
 }
 
+.text-box p {
+    font-size: 2.0em;
+}
+
 .text {
-	font-size: 1.5em;
+	border: solid 3px #ced4da;
+    border-radius: 8px;
+    background: #f8f9fa;
+	margin-top: 15px;
+}
+
+.edit {
+	position: absolute;
+	width: 120px;
+	right: 450px;
+}
+
+.delete {
+	position: absolute;
+	width: 120px;
+	right: 200px;
+}
+
+img {
+	margin-top: 10px;
 }

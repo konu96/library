@@ -31,8 +31,6 @@ public class BookController {
 	//@GetMapping("/books/insert/")
 	@RequestMapping(value = "/books/insert", method = RequestMethod.GET)
 	public ModelAndView insertBook(ModelAndView mav, BookForm form) {
-		System.out.println("aaaaaa");
-		mav.addObject( "book", form );
 		mav.setViewName("book/insert");
 		
 		return mav;

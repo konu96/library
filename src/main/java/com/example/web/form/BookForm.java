@@ -18,6 +18,9 @@ public class BookForm implements Serializable {
 	@NotBlank
 	private String imageUrl;
 	
+	@NotBlank
+	private String publisher;
+	
 	@Min(1)
 	private Integer number;
 	
@@ -60,6 +63,14 @@ public class BookForm implements Serializable {
 	
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	
+	public String getPublisher() {
+		return this.publisher;
+	}
+	
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
 	}
 	
 	public Integer getNumber() {

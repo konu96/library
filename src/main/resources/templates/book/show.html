@@ -84,13 +84,19 @@
             <img th:src="${book.imageUrl}" align="left" width="300px" height="450px" th:alt="${book.bookName}" />
           </div>
           <div class="text-box">
-            <p class="text" th:text="'本の名前: ' + ${book.bookName}"></p>
-            <p class="text" th:text="'著者名: ' + ${book.author}"></p>
-            <p class="text" th:text="'出版社: ' + ${book.publisher}"></p>
-            <p class="text" th:text="'蔵書数: ' + ${book.number}"></p>
-            <p class="text" th:text="'追加日: ' + ${#dates.format(book.createdAt, 'YYYY-MMM-dd')}"></p>
-            <p class="text" th:text="'ジャンル: ' + ${book.genre}"></p>
+            <p> 本の名前: <block class="text" th:text="${book.bookName}"></block> </p>
+            <p> 著者名: <block class="text" th:text="${book.author}"></block> </p>
+            <p> 出版社: <block class="text" th:text="${book.publisher}"></block> </p>
+            <p> 蔵書数: <block class="text" th:text="${book.number} + '冊'"></block> </p>
+            <p> 追加日: <block class="text" th:text="${#dates.format(book.createdAt, 'YYYY/MM/dd')}"></block> </p>
+            <p> ジャンル: <block class="text" th:text="${book.genre}"></block> </p>
           </div>
+          <form th:action="'/books/' + ${book.id} + '/edit'" accept-charset="UTF-8" method="get">
+            <button class="btn btn-primary btn-lg active edit" aria-pressed="true" title="編集" type="submit"> 編集 </button>
+          </form>
+          <form th:action="'/books/' + ${book.id} + '/delete'" accept-charset="UTF-8" method="post">
+            <button class="btn btn-primary btn-lg active delete" aria-pressed="true" title="編集" type="submit"> 削除 </button>
+          </form>
         </div>
       </div>
     </div>
