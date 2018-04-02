@@ -78,7 +78,6 @@ public class BookController {
 			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre().toString() ) );
 		}
 		mav.addObject("items", items);
-		mav.addObject("bookForm", new BookForm());
 		mav.setViewName("book/delete");
 		return mav;
 	}

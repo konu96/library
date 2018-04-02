@@ -22,7 +22,7 @@ public class CommonControllerAdvice {
 	
 	@ModelAttribute(name = "books")
 	public List<Book> setupBooks() {
-		return bookService.findAll();
+		return bookService.findAllByOrderByCreatedAtDesc();
 	}
 	
 	@ModelAttribute(name = "bookForm")

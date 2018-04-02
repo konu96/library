@@ -31,7 +31,7 @@
 				for(var category in categories) {
 					for(var id in categories[category]) {
 						var html = '<a href="/books/' + books[id].id + '/" accept-charset="UTF-8" method="get"> <img src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" /> </a>';
-						$('li[name="' + genres[category].$name + '"]').append(html);
+						$('li[name="' + genres[category].$name + '"]').prepend(html);
 					}
 				}
 			});
@@ -78,13 +78,26 @@
           </div>
         </nav>
   	  </header>
-  		<div>
-      		<form action="/books/delete/" accept-charset="UTF-8" method="get">
-        			<input name="bookName" type="text" placeholder="本の名前で検索"/>
-        			<input name="author" type="text" placeholder="著者名で検索"/>
-        			<button class="btn" type="submit"> 送信 </button>
-      		</form>
-    		</div>
+  	  <section>
+        <div class="contents">
+          <ul class="tab">
+           <li class="select"> 全て </li>
+           <block th:each="genre : ${genres}">
+             <li th:text="${genre.genre}"></li>
+           </block>  
+          </ul>
+     	  <ul class="content">
+     	    <li>
+     	      <block th:each="book : ${books}">
+     	          <a th:href="'/books/' + ${book.id} + '/'" accept-charset="UTF-8" method="get"> <img th:src="${book.imageUrl}" width="200px" height="300px" th:alt="${book.bookName}" /> </a>
+     	      </block>
+     	    </li>
+     	    <block th:each="genre : ${genres}">
+     	      <li class="hide" th:name="${genre}" th:value="${genre.genre}"></li>
+     	    </block>  
+     	  </ul>
+     	</div>
+      </section>
     		<form action="/books/delete" th:object="${bookForm}" accept-charset="UTF-8" method="post">
     			<div th:each="item : ${items}">
      			<input type="checkbox" name="CheckBoxes" th:value="${item.key}" th:text="${item.value.bookName}" th:field="*{inputMultiCheck}" />
