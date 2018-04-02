@@ -25,16 +25,18 @@ public class BookForm implements Serializable {
 	private Integer number;
 	
 	@NotBlank
+	private String text;
+	
 	private Genre genre;
 	
 	private String[] inputMultiCheck;
 	
-	public BookForm(String bookName, String author, String imageUrl, Integer number, Genre genre) {
+	public BookForm(String bookName, String author, String imageUrl, Integer number, String text) {
 		this.bookName = bookName;
 		this.author   = author;
 		this.imageUrl = imageUrl;
 		this.number   = number;
-		this.genre    = genre;
+		this.genre    = Genre.fromString(text);
 	}
 	
 	public BookForm() {
@@ -79,6 +81,14 @@ public class BookForm implements Serializable {
 	
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+	
+	public String getText() {
+		return this.text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	public Genre getGenre() {

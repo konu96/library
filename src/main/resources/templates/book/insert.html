@@ -42,6 +42,7 @@
   </head>
   <body>
   	  <header>
+  	  <img src="/image/book_icon.png" width="55px" height="70px" style="float:left; margin-right: 10px;"/>
   	    <h1> <a href="/"> Library </a> </h1>
   	    <nav>
   	      <div class="entry">
@@ -80,10 +81,10 @@
       <div class ="all-frame">
         <div class="img-frame">
           <div class="img">
-            <img src="image/book_icon.png" align="left" width="300px" height="450px" />
+            <img src="/image/book_icon.png" align="left" width="300px" height="450px" />
           </div>
           <div class="text">
-            <form action="/books/insert" th:object="${bookForm}" accept-charset="UTF-8" method="post">
+            <form th:action="@{/books/insert}" th:object="${bookForm}" accept-charset="UTF-8" method="post">
               <div class="form-group row">
                 <label for="bookName" class="col-sm-2 col-form-label"> 本の名前 </label>
                 <div class="col-sm-10">
@@ -109,10 +110,10 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="genre" class="col-sm-2 col-form-label"> ジャンル </label>
+                <label for="text" class="col-sm-2 col-form-label"> ジャンル </label>
                 <div class="col-sm-10">
-                  <select class="form-control">
-                    <option th:each="genre : ${genres}"  th:selected="${genre.genre}"  th:value="${genre.genre}" th:text="${genre.genre}">hoge</option>
+                  <select class="form-control" th:field="*{text}">
+                    <option th:each="item : ${select}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{text}">hoge</option>
                   </select>
                 </div>
               </div>

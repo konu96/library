@@ -12,4 +12,14 @@ public enum Genre {
 	public String getGenre() {
 		return this.genre;
 	}
+	
+	public static Genre fromString(String str) {
+		Genre[] genres = Genre.values();
+        for(Genre genre : genres) {
+            if (str.equals(genre.getGenre().toString())){
+                return genre;
+            }
+        }
+        return null;
+    }
 }

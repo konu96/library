@@ -49,7 +49,7 @@ public class Book {
 	private boolean deleteFlag;
 	
 	@Column(nullable = false)
-	private Genre genre;
+	private Genre genre = Genre.OTHER;
 	
 	@OneToOne
 	private User user;

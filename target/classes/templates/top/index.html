@@ -92,7 +92,7 @@
      	        <div class="box">
      	          <span class="box-title" th:text="${book.genre}"></span>
      	          <a th:href="'/books/' + ${book.id}"> <img th:src="${book.imageUrl}" th:alt="${book.bookName}" class="thumnail" /> </a>
-     	          <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY-MMM-dd')} + 'に「' + ${book.bookName} + '」を追加しました。'"> </span>
+     	          <span class="content" th:text="${#dates.format(book.createdAt, 'YYYY/MM/dd')} + 'に「' + ${book.bookName} + '」を追加しました。'"> </span>
      	        </div>
      	      </block>
      	    </li>

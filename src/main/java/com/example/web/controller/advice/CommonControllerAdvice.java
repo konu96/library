@@ -1,6 +1,8 @@
 package com.example.web.controller.advice;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,5 +39,15 @@ public class CommonControllerAdvice {
 	private Genre[] setGenres() {
 		Genre[] genres = Genre.values();
 		return genres;
+	}
+	
+	@ModelAttribute(name = "select")
+	private Map<String, String> setupSelect() {
+		Map<String, String> select = new LinkedHashMap<>();
+		for( Genre genre : Genre.values() ) {
+			select.put( genre.getGenre(), genre.getGenre() );
+		}
+		
+		return select;
 	}
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
+import com.example.business.entity.Genre;
 import com.example.business.service.BookService;
 import com.example.security.LoginUserDetails;
 import com.example.web.form.BookForm;
@@ -48,7 +49,9 @@ public class BookController {
 		}
 		
 		Book book = new Book();
+		form.setGenre( Genre.fromString( form.getText() ) );
 		BeanUtils.copyProperties(form, book);
+		//book.setGenre( Genre.fromString( form.getGenre() ) );
 		bookService.save(book, loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
 		return mav;
@@ -72,7 +75,7 @@ public class BookController {
 		List<Book> books = bookService.find(bookName, author);
 		
 		for(Book book : books) {
-			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre() ) );
+			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre().toString() ) );
 		}
 		mav.addObject("items", items);
 		mav.addObject("bookForm", new BookForm());
