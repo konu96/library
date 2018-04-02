@@ -10,7 +10,12 @@
 }
 
 .img {
-	margin: 30px 0px 0px 60px;
+	margin: 30px 0px 0px 50px;
+}
+
+.img img {
+	margin-top: 15px;
+	margin-right: 20px;
 }
 
 .text-box {
@@ -37,8 +42,4 @@
 	position: absolute;
 	width: 120px;
 	right: 325px;
-}
-
-img {
-	margin-top: 10px;
 }
