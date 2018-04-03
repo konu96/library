@@ -14,10 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
@@ -26,7 +28,7 @@ import com.example.business.service.BookService;
 import com.example.security.LoginUserDetails;
 import com.example.web.form.BookForm;
 
-@Controller
+@RestController
 public class BookController {
 	@Autowired
 	private BookService bookService;
@@ -150,16 +152,17 @@ public class BookController {
 		return mav;
 	}
 	
-	@GetMapping("/autocomplete/{term}")
+	@RequestMapping( value = "/books/autocomplete", method = RequestMethod.POST )
 	@ResponseBody
-	public List<String> autoComplete(@PathVariable("term") String term) {
-		System.out.println("autocomplete: " + term);
+	public List<String> autoComplete( @RequestBody Book param) {
+		String term = param.getBookName();
 		List<Book> books = bookService.find(term, "");
-		List<String> result = new ArrayList<>();
 		
+		List<String> result = new ArrayList<>();
 		for(Book book : books) {
 			result.add( book.getBookName() );
 		}
+		
 		
 		return result;
 	}
