@@ -1,5 +1,6 @@
 package com.example.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
@@ -146,5 +148,19 @@ public class BookController {
 		mav.setViewName( "redirect:/" );
 		
 		return mav;
+	}
+	
+	@GetMapping("/autocomplete/{term}")
+	@ResponseBody
+	public List<String> autoComplete(@PathVariable("term") String term) {
+		System.out.println("autocomplete: " + term);
+		List<Book> books = bookService.find(term, "");
+		List<String> result = new ArrayList<>();
+		
+		for(Book book : books) {
+			result.add( book.getBookName() );
+		}
+		
+		return result;
 	}
 }
