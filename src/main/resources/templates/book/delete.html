@@ -2,8 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
     <meta charset="UTF-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+  	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     	<link rel="stylesheet" href="/css/style.css" type="text/css" />
+    	<link rel="stylesheet" href="/css/delete.css" type="text/css" />
+    	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="/js/autocomplete.js" />
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
     	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -30,7 +37,8 @@
 				
 				for(var category in categories) {
 					for(var id in categories[category]) {
-						var html = '<a href="/books/' + books[id].id + '/" accept-charset="UTF-8" method="get"> <img src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" /> </a>';
+						var html = '<img class="imgList" src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" />';
+						html += '<input class="disabled_checkbox" type="checkbox" />';
 						$('li[name="' + genres[category].$name + '"]').prepend(html);
 					}
 				}
@@ -38,6 +46,7 @@
 		/*]]>*/
 	</script>
 	<script th:inline="javascript" src="/js/index.js" />
+	<script th:inline="javascript" src="/js/check.js" />
   </head>
   <body>
   	<div class="box_wrapper">
@@ -82,28 +91,21 @@
         <div class="contents">
           <ul class="tab">
            <li class="select"> 全て </li>
-           <block th:each="genre : ${genres}">
-             <li th:text="${genre.genre}"></li>
-           </block>  
           </ul>
      	  <ul class="content">
      	    <li>
-     	      <block th:each="book : ${books}">
-     	          <a th:href="'/books/' + ${book.id} + '/'" accept-charset="UTF-8" method="get"> <img th:src="${book.imageUrl}" width="200px" height="300px" th:alt="${book.bookName}" /> </a>
+     	    <form th:action="@{'/books/delete?' + ${_csrf.parameterName} + '=' + ${_csrf.token}}" th:object="${bookForm}" accept-charset="UTF-8" method="post" enctype="multipart/form-data">
+     	      <block class="check" th:each="item : ${items}">
+     	          <img class="imgList" th:src="${item.value.imageUrl}" width="200px" height="300px" th:alt="${item.value.bookName}" />
+     	          <input class="disabled_checkbox" type="checkbox" name="CheckBoxes" th:value="${item.key}" th:field="*{inputMultiCheck}" />
      	      </block>
+     	      <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+     	      <button class="btn btn-primary btn-lg active" type="submit"> 送信 </button>
+     	      </form>
      	    </li>
-     	    <block th:each="genre : ${genres}">
-     	      <li class="hide" th:name="${genre}" th:value="${genre.genre}"></li>
-     	    </block>  
      	  </ul>
      	</div>
       </section>
-    		<form action="/books/delete" th:object="${bookForm}" accept-charset="UTF-8" method="post">
-    			<div th:each="item : ${items}">
-     			<input type="checkbox" name="CheckBoxes" th:value="${item.key}" th:text="${item.value.bookName}" th:field="*{inputMultiCheck}" />
-			</div>
-			<button class="btn" type="submit"> 送信 </button>
-		</form> 
 		<footer></footer>
 	  </div>
     	</body>
