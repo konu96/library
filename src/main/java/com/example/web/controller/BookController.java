@@ -55,7 +55,6 @@ public class BookController {
 		Book book = new Book();
 		form.setGenre( Genre.fromString( form.getText() ) );
 		BeanUtils.copyProperties(form, book);
-		//book.setGenre( Genre.fromString( form.getGenre() ) );
 		bookService.save(book, loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
 		return mav;
@@ -74,7 +73,14 @@ public class BookController {
 	@GetMapping("/books/delete")
 	public ModelAndView deleteBook(ModelAndView mav, 
 								  @RequestParam(defaultValue = "") String bookName, 
-								  @RequestParam(defaultValue = "") String author) {
+								  @RequestParam(defaultValue = "") String author,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Map<Long,BookForm> items = new HashMap<>();
 		List<Book> books = bookService.find(bookName, author);
 		
@@ -90,6 +96,12 @@ public class BookController {
 	public ModelAndView deleteBook(ModelAndView mav, 
 								  BookForm bookForm, 
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		String[] checkBoxes = bookForm.getInputMultiCheck();
 		for(String id_str : checkBoxes) {
 			Book book = bookService.findOne( Long.parseLong(id_str) );
@@ -110,7 +122,15 @@ public class BookController {
 	}
 	
 	@GetMapping("/books/{id}/edit")
-	public ModelAndView editBook(ModelAndView mav, @PathVariable("id") Long id) {
+	public ModelAndView editBook(ModelAndView mav, 
+								@PathVariable("id") Long id,
+								@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		mav.addObject("book", book);
 		mav.setViewName("book/edit");
@@ -123,6 +143,12 @@ public class BookController {
 								  @PathVariable("id") Long id, 
 								  Book updateBook,
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		BeanUtils.copyProperties(updateBook, book);
 		bookService.save(book, loginUserDetails.getUserId());
@@ -132,7 +158,15 @@ public class BookController {
 	}
 	
 	@GetMapping("/books/{id}/delete")
-	public ModelAndView deleteBook(ModelAndView mav, @PathVariable("id") Long id) {
+	public ModelAndView deleteBook(ModelAndView mav, 
+								  @PathVariable("id") Long id,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		mav.addObject( "book", book );
 		mav.setViewName("book/delete");
@@ -144,6 +178,12 @@ public class BookController {
 	public ModelAndView updateBook(ModelAndView mav, 
 								  @PathVariable("id") Long id,
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		book.setDeleteFlag(true);
 		bookService.save(book,loginUserDetails.getUserId());

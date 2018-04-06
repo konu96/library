@@ -27,14 +27,14 @@ ul {
     border: solid 3px #95ccff;
     border-radius: 8px;
     background: aliceblue;
-    width: 90%;
+    width: 95%;
 }
 
 .box .box-title {
     position: absolute;
     display: inline-block;
     top: -13px;
-    left: 87%;
+    right: 5%;
     padding: 0 9px;
     line-height: 1;
     font-size: 19px;
