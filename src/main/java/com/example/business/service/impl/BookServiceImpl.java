@@ -43,6 +43,11 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Override
+	public List<Book> findAllByOrderByCreatedAtDesc() {
+		return bookRepository.findAllByOrderByCreatedAtDesc();
+	}
+	
+	@Override
 	public Page<Book> findAll(Pageable page) {
 		return bookRepository.findAll(page);
 	}

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,7 +49,7 @@ public class Book {
 	private boolean deleteFlag;
 	
 	@Column(nullable = false)
-	private Genre genre;
+	private Genre genre = Genre.OTHER;
 	
 	@OneToOne
 	private User user;

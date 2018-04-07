@@ -14,35 +14,35 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.business.entity.Book;
+import com.example.business.entity.Genre;
 import com.example.business.service.BookService;
 import com.example.security.LoginUserDetails;
 import com.example.web.form.BookForm;
 
-@Controller
+@RestController
 public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@GetMapping("books/show")
-	public ModelAndView showBook(ModelAndView mav) {
-		mav.setViewName("book/list");
-		
-		return mav;
-	}
-	
-	@GetMapping("/books/insert/")
+	//@GetMapping("/books/insert/")
+	@RequestMapping(value = "/books/insert", method = RequestMethod.GET)
 	public ModelAndView insertBook(ModelAndView mav, BookForm form) {
-		mav.addObject( "book", new BookForm() );
 		mav.setViewName("book/insert");
 		
 		return mav;
 	}
 	
-	@PostMapping("/books/insert/")
+	//@PostMapping("/books/insert/")
+	@RequestMapping(value = "/books/insert", method = RequestMethod.POST)
 	public ModelAndView insertBook(ModelAndView mav,
 								  @Validated BookForm form,
 								  BindingResult result,
@@ -53,6 +53,7 @@ public class BookController {
 		}
 		
 		Book book = new Book();
+		form.setGenre( Genre.fromString( form.getText() ) );
 		BeanUtils.copyProperties(form, book);
 		bookService.save(book, loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
@@ -72,15 +73,21 @@ public class BookController {
 	@GetMapping("/books/delete")
 	public ModelAndView deleteBook(ModelAndView mav, 
 								  @RequestParam(defaultValue = "") String bookName, 
-								  @RequestParam(defaultValue = "") String author) {
+								  @RequestParam(defaultValue = "") String author,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Map<Long,BookForm> items = new HashMap<>();
-		List<Book> books = books = bookService.find(bookName, author);
+		List<Book> books = bookService.find(bookName, author);
 		
 		for(Book book : books) {
-			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber() ) );
+			items.put( book.getId(), new BookForm( book.getBookName(), book.getAuthor(), book.getImageUrl(), book.getNumber(), book.getGenre().toString() ) );
 		}
 		mav.addObject("items", items);
-		mav.addObject("bookForm", new BookForm());
 		mav.setViewName("book/delete");
 		return mav;
 	}
@@ -89,6 +96,12 @@ public class BookController {
 	public ModelAndView deleteBook(ModelAndView mav, 
 								  BookForm bookForm, 
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		String[] checkBoxes = bookForm.getInputMultiCheck();
 		for(String id_str : checkBoxes) {
 			Book book = bookService.findOne( Long.parseLong(id_str) );
@@ -109,7 +122,15 @@ public class BookController {
 	}
 	
 	@GetMapping("/books/{id}/edit")
-	public ModelAndView editBook(ModelAndView mav, @PathVariable("id") Long id) {
+	public ModelAndView editBook(ModelAndView mav, 
+								@PathVariable("id") Long id,
+								@AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		mav.addObject("book", book);
 		mav.setViewName("book/edit");
@@ -122,6 +143,12 @@ public class BookController {
 								  @PathVariable("id") Long id, 
 								  Book updateBook,
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		BeanUtils.copyProperties(updateBook, book);
 		bookService.save(book, loginUserDetails.getUserId());
@@ -131,7 +158,15 @@ public class BookController {
 	}
 	
 	@GetMapping("/books/{id}/delete")
-	public ModelAndView deleteBook(ModelAndView mav, @PathVariable("id") Long id) {
+	public ModelAndView deleteBook(ModelAndView mav, 
+								  @PathVariable("id") Long id,
+								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		mav.addObject( "book", book );
 		mav.setViewName("book/delete");
@@ -143,11 +178,32 @@ public class BookController {
 	public ModelAndView updateBook(ModelAndView mav, 
 								  @PathVariable("id") Long id,
 								  @AuthenticationPrincipal LoginUserDetails loginUserDetails) {
+		if(loginUserDetails == null) {
+			mav.setViewName("redirect:/login");
+			
+			return mav;
+		}
+		
 		Book book = bookService.findOne(id);
 		book.setDeleteFlag(true);
 		bookService.save(book,loginUserDetails.getUserId());
 		mav.setViewName( "redirect:/" );
 		
 		return mav;
+	}
+	
+	@RequestMapping( value = "/books/autocomplete", method = RequestMethod.POST )
+	@ResponseBody
+	public List<String> autoComplete( @RequestBody Book param) {
+		String term = param.getBookName();
+		List<Book> books = bookService.find(term, "");
+		
+		List<String> result = new ArrayList<>();
+		for(Book book : books) {
+			result.add( book.getBookName() );
+		}
+		
+		
+		return result;
 	}
 }

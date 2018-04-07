@@ -1,0 +1,23 @@
+.check {
+	position: relative;
+}
+
+.imgList {
+	cursor: pointer;
+}
+
+ .check .disabled_checkbox {
+  position: absolute;
+  top: -130px;
+  right: 12px;
+  display: none;
+}
+
+.imgList.checked {
+  border: 6px solid rgba(0,123,255,.5);
+  box-sizing: border-box;
+}
+
+img.imgList.checked + .disabled_checkbox {
+  display: block;
+}

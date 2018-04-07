@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/css/**", "/font/**", "/js/**");
+		web.ignoring().antMatchers("/css/**", "/font/**", "/js/**", "/image/**");
 	}
 	
 	@Override
@@ -37,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
-				.antMatchers("/books/show", "/books/{\\d}").permitAll()
-				.antMatchers("/sign_up", "/register").permitAll()
+				.antMatchers("/books/{\\d}").permitAll()
+				.antMatchers("/sign_up").permitAll()
 				.anyRequest().authenticated()
 			.and()
 			.formLogin()
@@ -48,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 			.and()
 			.logout()
-				.logoutUrl("/logout")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/login");
 	}
 	

@@ -1,0 +1,45 @@
+.all-frame {
+	margin: 20px 0 0 65px;
+	width: 90%;
+	box-shadow: 2px 2px 4px;
+}
+
+.img-frame {
+	background: #eee;
+	height: 480px;
+}
+
+.img {
+	margin: 30px 0px 0px 50px;
+}
+
+.img img {
+	margin-top: 15px;
+	margin-right: 20px;
+}
+
+.text-box {
+    /* border: solid 3px #ced4da;
+    border-radius: 8px;
+    background: #f8f9fa; */
+    margin-left: auto;
+    width: 40%;
+    margin-right: 100px;
+}
+
+.text {
+	/* border: solid 3px #ced4da;
+    border-radius: 8px;
+    background: #f8f9fa; */
+    font-size: 1.4em;
+	margin-left: auto;
+    width: 65%;
+    margin-right: 15px;
+    padding-top: 20px;
+}
+
+.edit {
+	position: absolute;
+	width: 120px;
+	right: 325px;
+}

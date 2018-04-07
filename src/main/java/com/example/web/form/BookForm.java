@@ -6,6 +6,8 @@ import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.example.business.entity.Genre;
+
 public class BookForm implements Serializable {
 	@NotBlank
 	private String bookName;
@@ -16,16 +18,25 @@ public class BookForm implements Serializable {
 	@NotBlank
 	private String imageUrl;
 	
+	@NotBlank
+	private String publisher;
+	
 	@Min(1)
 	private Integer number;
 	
+	@NotBlank
+	private String text;
+	
+	private Genre genre;
+	
 	private String[] inputMultiCheck;
 	
-	public BookForm(String bookName, String author, String imageUrl, Integer number) {
+	public BookForm(String bookName, String author, String imageUrl, Integer number, String text) {
 		this.bookName = bookName;
 		this.author   = author;
 		this.imageUrl = imageUrl;
 		this.number   = number;
+		this.genre    = Genre.fromString(text);
 	}
 	
 	public BookForm() {
@@ -56,12 +67,36 @@ public class BookForm implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 	
+	public String getPublisher() {
+		return this.publisher;
+	}
+	
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	
 	public Integer getNumber() {
 		return this.number;
 	}
 	
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+	
+	public String getText() {
+		return this.text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public Genre getGenre() {
+		return this.genre;
+	}
+	
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
 	
 	public String[] getInputMultiCheck() {

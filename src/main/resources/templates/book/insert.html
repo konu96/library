@@ -1,25 +1,139 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-    		<meta charset="UTF-8" />
-    		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
-    		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  	</head>
-
-  	<body>
-  		<header></header>
-  		<div>
-      		<form action="/books/insert/" th:object="${bookForm}" accept-charset="UTF-8" method="post">
-        			<p> 本の名前 : <input type="text" th:field="*{bookName}" th:errorclass="error-field" placeholder="本の名前" /> </p>
-        			<p> 著者名 : <input type="text" th:field="*{author}" th:errorclass="error-field" placeholder="著者名" /> </p>
-        			<p> 画像URL : <input type="text" th:field="*{imageUrl}" th:errorclass="error-field" placeholder="画像URL" /> </p>
-        			<p> 冊数 : <input type="number" name="number" value="1" th:errorclass="error-field" min="0" /> </p>
-        			<button class="btn" type="submit"> 送信 </button>
-      		</form>
-    		</div>
-    		<footer></footer>
-  	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+  	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    	<link rel="stylesheet" href="/css/style.css" type="text/css" />
+    	<link rel="stylesheet" href="/css/edit.css" type="text/css" />
+    	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="/js/autocomplete.js" />
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js" charset="utf-8"></script>
+    	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[>*/
+			$(function() {
+				function categorize(books, name) {
+					var result = [];
+					for(var book in books) {
+						if(books[book].genre.$name === name) {
+							result.push(books[book]);
+						}
+					}
+					
+					return result;
+				}
+				var categories = []
+				var genres = /*[[ ${genres} ]]*/ null;
+				var books  = /*[[ ${books} ]]*/ null;
+				for(var genre in genres) {
+					categories.push( categorize(books, genres[genre].$name) );
+				}
+				
+				for(var category in categories) {
+					for(var id in categories[category]) {
+						var html = '<a href="/books/' + books[id].id + '/" accept-charset="UTF-8" method="get"> <img src=' + books[id].imageUrl + ' width="200px" height="300px" alt="' + books[id].bookName + '" /> </a>';
+						$('li[name="' + genres[category].$name + '"]').append(html);
+					}
+				}
+			});
+		/*]]>*/
+	</script>
+	<script th:inline="javascript" src="/js/index.js" />
+  </head>
+  <body>
+  	  <header>
+  	  <img src="/image/book_icon.png" width="55px" height="70px" style="float:left; margin-right: 10px;"/>
+  	    <h1> <a href="/"> Library </a> </h1>
+  	    <nav>
+  	      <div class="entry">
+  	        <ul>
+  	          <li>
+  	            <form action="/books/search" accept-charset="UTF-8" method="get">
+  	              <input name="bookName" type="search" class="form-control form-control-sm bookName" placeholder="🔍本の名前で検索" />
+  	            </form>
+  	          </li>
+  	          <block th:if="${loginUser == null}">
+  	            <li>
+  	              <form action="/login" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログイン" type="submit"> ログイン </button>
+  	              </form> 
+  	            </li>
+  	            <li>
+  	              <form action="/sign_up" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="新規登録" type="submit"> 新規登録 </button>
+  	              </form> 
+  	            </li>
+  	          </block>
+  	          <block th:if="${loginUser != null}">
+  	            <li>
+  	              <form action="/books/insert" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="追加" type="submit"> 本を登録 </button>
+                  </form>
+  	              <form action="/logout" accept-charset="UTF-8" method="get">
+  	                <button class="btn btn-primary btn-lg active" aria-pressed="true" title="ログアウト" type="submit"> ログアウト </button>
+                  </form> 
+                </li>
+              </block>
+            </ul>
+          </div>
+        </nav>
+  	  </header>
+      <div class ="all-frame">
+        <div class="img-frame">
+          <div class="img">
+            <img src="/image/book_icon.png" align="left" width="300px" height="450px" />
+          </div>
+          <div class="text">
+            <form th:action="@{/books/insert}" th:object="${bookForm}" accept-charset="UTF-8" method="post">
+              <div class="form-group row">
+                <label for="bookName" class="col-sm-2 col-form-label"> 本の名前 </label>
+                <div class="col-sm-10">
+                  <input id="bookName" type="text" class="form-control form-control-lg" th:field="*{bookName}" th:errorclass="error-field" value="*{bookName}" placeholder="本の名前を入力してください" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="author" class="col-sm-2 col-form-label"> 著者名 </label>
+                <div class="col-sm-10">
+                  <input id="author" type="text" class="form-control form-control-lg" th:field="*{author}" th:errorclass="error-field" value="*{author}" placeholder="著者名を入力してください" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="publisher" class="col-sm-2 col-form-label"> 出版社 </label>
+                <div class="col-sm-10">
+                  <input id="publisher" type="text" class="form-control form-control-lg" th:field="*{publisher}" th:errorclass="error-field" value="*{publisher}" placeholder="出版社を入力してください" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="number" class="col-sm-2 col-form-label"> 蔵書数 </label>
+                <div class="col-sm-10">
+                  <input id="number" type="number" class="form-control form-control-lg" name="number" value="1" th:errorclass="error-field" min="0" placeholder="蔵書数を入力してください" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="text" class="col-sm-2 col-form-label"> ジャンル </label>
+                <div class="col-sm-10">
+                  <select class="form-control" th:field="*{text}">
+                    <option th:each="item : ${select}" th:value="${item.value}" th:text="${item.key}" th:selected="${item.value} == *{text}">hoge</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="imageUrl" class="col-sm-2 col-form-label"> 画像URL </label>
+                <div class="col-sm-10">
+                  <input id="imageUrl" type="text" class="form-control form-control-lg" th:field="*{imageUrl}" th:errorclass="error-field" value="*{imageUrl}" />
+                </div>
+              </div>
+              <button class="btn btn-primary btn-lg active edit" aria-pressed="true" title="追加" type="submit"> 追加 </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <footer></footer>
+  </body>
 </html>
